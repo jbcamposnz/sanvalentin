@@ -16,7 +16,6 @@
       flex-direction: column;
     }
 
-    /* Fondo animado de corazones */
     .heart-bg {
       position: absolute;
       width: 100%;
@@ -109,6 +108,15 @@
       margin-top: 15px;
       font-size: 18px;
       color: #e63950;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 1s ease, transform 0.8s ease;
+    }
+
+    #sorpresa.visible {
+      display: block;
+      opacity: 1;
+      transform: scale(1);
     }
 
     .galeria {
@@ -117,7 +125,7 @@
       position: relative;
       width: 300px;
       height: 200px;
-      transform: translateX(-150px); /* desplazada a la izquierda */
+      transform: translateX(-150px);
     }
 
     .galeria img {
@@ -142,10 +150,29 @@
       text-align: center;
       font-style: italic;
     }
+
+    /* Responsividad */
+    @media (max-width: 500px) {
+      .card {
+        width: 90%;
+        height: auto;
+        padding: 15px;
+      }
+      .message {
+        font-size: 20px;
+      }
+      .heart {
+        font-size: 70px;
+      }
+      .galeria {
+        width: 90%;
+        height: 180px;
+        transform: none;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- Fondo animado -->
   <div class="heart-bg">
     <span style="left:10%; animation-delay:0s;">❤️</span>
     <span style="left:30%; animation-delay:2s;">💖</span>
@@ -154,15 +181,13 @@
     <span style="left:90%; animation-delay:8s;">💞</span>
   </div>
 
-  <!-- Tarjeta principal -->
   <div class="card">
-    <img class="decorativo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Valentine_heart.svg/1024px-Valentine_heart.svg.png" alt="HACES PALPITAR MI ">
+    <img class="decorativo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Valentine_heart.svg/1024px-Valentine_heart.svg.png" alt="">
     <div class="heart">❤️</div>
     <div class="message">¡Feliz San Valentín!</div>
     <button onclick="mostrarMensaje()">Abrir Sorpresa</button>
     <p id="sorpresa">💌 El amor cabe en dos letras: tú</p>
 
-    <!-- Galería de imágenes sorpresa -->
     <div class="galeria" id="galeria">
       <img src="amor1.jpeg" class="active" alt="Imagen 1">
       <img src="amor2.jpeg" alt="Imagen 2">
@@ -176,39 +201,35 @@
     </audio>
   </div>
 
- <!-- Pie de página -->
-<footer id="footer">
-  <!-- El texto se irá escribiendo aquí -->
-</footer>
+  <footer id="footer"></footer>
 
-<script>
-  function mostrarMensaje() {
-    document.getElementById("sorpresa").style.display = "block";
-    document.getElementById("galeria").style.display = "block";
-    document.getElementById("musica").play();
+  <script>
+    function mostrarMensaje() {
+      const sorpresa = document.getElementById("sorpresa");
+      sorpresa.classList.add("visible");
 
-    // Alternar imágenes
-    let index = 0;
-    const imagenes = document.querySelectorAll("#galeria img");
-    setInterval(() => {
-      imagenes[index].classList.remove("active");
-      index = (index + 1) % imagenes.length;
-      imagenes[index].classList.add("active");
-    }, 3000); // cambia cada 3 segundos
+      document.getElementById("galeria").style.display = "block";
+      document.getElementById("musica").play();
 
-    // Animación de escritura en el pie de página
-    const texto = "Nuestro amor comenzó desde antes de haber nacido, ya estaba en los planes perfectos de Dios, gracias por amarme tanto";
-    const footer = document.getElementById("footer");
-    let i = 0;
-    const intervalo = setInterval(() => {
-      footer.textContent += texto.charAt(i);
-      i++;
-      if (i === texto.length) {
-        clearInterval(intervalo);
-      }
-    }, 80); // velocidad de escritura (ms por letra)
-  }
+      let index = 0;
+      const imagenes = document.querySelectorAll("#galeria img");
+      setInterval(() => {
+        imagenes[index].classList.remove("active");
+        index = (index + 1) % imagenes.length;
+        imagenes[index].classList.add("active");
+      }, 3000);
 
+      const texto = "Nuestro amor comenzó desde antes de haber nacido, ya estaba en los planes perfectos de Dios, gracias por amarme tanto";
+      const footer = document.getElementById("footer");
+      let i = 0;
+      const intervalo = setInterval(() => {
+        footer.textContent += texto.charAt(i);
+        i++;
+        if (i === texto.length) {
+          clearInterval(intervalo);
+        }
+      }, 80);
+    }
   </script>
 </body>
 </html>
